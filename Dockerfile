@@ -8,8 +8,8 @@ RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases
     PROMETHEUS_URL=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
     | grep browser_download_url \
     | grep linux-amd64 \
-    | cut -d '"' -f 4) &&
-    PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") &&
+    | cut -d '"' -f 4) && \
+    PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") && \
     wget $PROMETHEUS_URL && \
     tar xvfz PROMETHEUS_FILENAME && \
     mv ${PROMETHEUS_FILENAME%%.*} /app/PrometheusService/prometheus && \
