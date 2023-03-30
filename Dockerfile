@@ -4,6 +4,7 @@ RUN --mount=type=secret,id=env \
 RUN apt-get update -y
 RUN apt-get install -y apt-transport-https
 RUN apt-get install -y software-properties-common wget
+RUN apt-get install -y coreutils
 RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') && \
     PROMETHEUS_URL=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
     | grep browser_download_url \
