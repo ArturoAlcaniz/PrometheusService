@@ -5,8 +5,8 @@ RUN apt-get update -y
 RUN apt-get install -y apt-transport-https
 RUN apt-get install -y software-properties-common wget
 RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') && \
-    wget https://github.com/prometheus/prometheus/releases/download/$LATEST/prometheus-$LATEST.darwin-amd64.tar.gz && \
-    tar xvfz prometheus-$LATEST.darwin-amd64.tar.gz && \
-    mv prometheus-$LATEST.darwin-amd64 /app/PrometheusService/prometheus && \
-    rm prometheus-$LATEST.darwin-amd64.tar.gz
+    wget https://github.com/prometheus/prometheus/releases/download/$LATEST/prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz && \
+    tar xvfz prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz && \
+    mv prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64 /app/PrometheusService/prometheus && \
+    rm prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz
 RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
