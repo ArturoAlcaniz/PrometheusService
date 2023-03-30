@@ -13,6 +13,6 @@ RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases
     PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") && \
     wget $PROMETHEUS_URL && \
     tar xvfz $PROMETHEUS_FILENAME && \
-    mv ${PROMETHEUS_FILENAME%%.*} /app/PrometheusService/prometheus && \
+    mv ${PROMETHEUS_FILENAME%.tar.gz} /app/PrometheusService/prometheus && \
     rm PROMETHEUS_FILENAME
 RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
