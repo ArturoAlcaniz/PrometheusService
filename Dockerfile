@@ -9,4 +9,4 @@ RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases
     tar xvfz prometheus-$LATEST.linux-amd64.tar.gz && \
     mv prometheus-$LATEST.linux-amd64 /app/PrometheusService/prometheus && \
     rm prometheus-$LATEST.linux-amd64.tar.gz
-COPY ./prometheus.yml /app/PrometheusService/prometheus/
+RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
