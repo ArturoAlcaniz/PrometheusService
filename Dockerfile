@@ -5,8 +5,13 @@ RUN apt-get update -y
 RUN apt-get install -y apt-transport-https
 RUN apt-get install -y software-properties-common wget
 RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') && \
-    wget https://github.com/prometheus/prometheus/releases/download/$LATEST/prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz && \
-    tar xvfz prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz && \
-    mv prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64 /app/PrometheusService/prometheus && \
-    rm prometheus-$(echo $LATEST | sed 's/^v//').darwin-amd64.tar.gz
+    PROMETHEUS_URL=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
+    | grep browser_download_url \
+    | grep linux-amd64 \
+    | cut -d '"' -f 4) &&
+    PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") &&
+    wget $PROMETHEUS_URL && \
+    tar xvfz PROMETHEUS_FILENAME && \
+    mv ${PROMETHEUS_FILENAME%%.*} /app/PrometheusService/prometheus && \
+    rm PROMETHEUS_FILENAME
 RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
