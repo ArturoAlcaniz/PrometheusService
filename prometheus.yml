@@ -7,20 +7,21 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
   - job_name: 'cadvisor'
-    kubernetes_sd_configs:
-    - role: pod
-      namespaces:
-        names:
-        - kube-system
-    relabel_configs:
-    - source_labels: [__meta_kubernetes_pod_container_name]
-      action: keep
-      regex: cadvisor
-    - source_labels: [__address__, __meta_kubernetes_pod_container_port_number]
-      action: replace
-      target_label: __address__
-      regex: (.+):8080;.+/
-      replacement: $1:8080
-    - source_labels: [__meta_kubernetes_pod_name]
-      action: replace
-      target_label: instance
+    serviceDiscoveryConfig:
+      kubernetes_sd_configs:
+        - role: pod
+          namespaces:
+            names:
+              - kube-system
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_container_name]
+          action: keep
+          regex: cadvisor
+        - source_labels: [__address__, __meta_kubernetes_pod_container_port_number]
+          action: replace
+          target_label: __address__
+          regex: (.+):8080;.+/
+          replacement: $1:8080
+        - source_labels: [__meta_kubernetes_pod_name]
+          action: replace
+          target_label: instance
