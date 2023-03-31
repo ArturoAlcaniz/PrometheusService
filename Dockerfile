@@ -23,6 +23,6 @@ RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/node_exporter/relea
     PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") && \
     wget $PROMETHEUS_URL && \
     tar xvfz $PROMETHEUS_FILENAME && \
-    mv ${PROMETHEUS_FILENAME%.tar.gz} /app/PrometheusService/prometheus && \
+    mv $(basename ${PROMETHEUS_FILENAME} .tar.gz) /app/PrometheusService/prometheus/node_exporter && \
     rm $PROMETHEUS_FILENAME
 RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
