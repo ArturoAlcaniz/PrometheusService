@@ -15,4 +15,14 @@ RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/prometheus/releases
     tar xvfz $PROMETHEUS_FILENAME && \
     mv ${PROMETHEUS_FILENAME%.tar.gz} /app/PrometheusService/prometheus && \
     rm $PROMETHEUS_FILENAME
+RUN LATEST=$(curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")') && \
+    PROMETHEUS_URL=$(curl -s https://api.github.com/repos/prometheus/node_exporter/releases/latest \
+    | grep browser_download_url \
+    | grep linux-amd64 \
+    | cut -d '"' -f 4) && \
+    PROMETHEUS_FILENAME=$(basename "$PROMETHEUS_URL") && \
+    wget $PROMETHEUS_URL && \
+    tar xvfz $PROMETHEUS_FILENAME && \
+    mv ${PROMETHEUS_FILENAME%.tar.gz} /app/PrometheusService/prometheus && \
+    rm $PROMETHEUS_FILENAME
 RUN mv /app/PrometheusService/prometheus.yml /app/PrometheusService/prometheus/
