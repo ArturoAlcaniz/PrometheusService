@@ -1,9 +1,6 @@
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
-  external_labels:
-    USERS_CONTAINER_NAME: '${USERS_CONTAINER_NAME}'
-    USERS_CONTAINER_PORT: '${USERS_CONTAINER_PORT}'
 
 scrape_configs:
   - job_name: 'prometheus'
